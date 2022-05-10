@@ -6,7 +6,7 @@ import web3 from "web3";
 
 function App() {
   const [minting, setMinting] = useState(false);
-  const { active, account, library, activate, deactivate } = useWeb3React()
+  const { active, account, library, activate } = useWeb3React()
 
   // Main Banner Image
   const mainBgImage = "https://cdn.i-scmp.com/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/12/03/b37a97d3-270c-4cdc-8c83-4ee735a686e8_95895212.jpg?itok=y0459xhc&v=1638533154";
