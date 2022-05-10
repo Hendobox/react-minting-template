@@ -40,13 +40,13 @@ function App() {
       console.log(ex)
     }
   }
-  async function disconnect() {
+  /*async function disconnect() {
     try {
       deactivate()
     } catch (ex) {
       console.log(ex)
     }
-  }
+  }*/
 
   async function mint() {
     setMinting(true);
