@@ -4,9 +4,11 @@ import { useWeb3React } from "@web3-react/core";
 import { injected } from "./wallet/Connector";
 import web3 from "web3";
 
+
 function App() {
   const [minting, setMinting] = useState(false);
-  const { active, account, library, activate } = useWeb3React()
+  const { active, account, library, activate } = useWeb3React();
+  const [accountAddress, setAccountAddress] = useState([]);
 
   // Main Banner Image
   const mainBgImage = "https://cdn.i-scmp.com/sites/default/files/styles/1200x800/public/d8/images/canvas/2021/12/03/b37a97d3-270c-4cdc-8c83-4ee735a686e8_95895212.jpg?itok=y0459xhc&v=1638533154";
@@ -33,12 +35,38 @@ function App() {
     { img: 'https://lh3.googleusercontent.com/Dk1bsZWYQ2LXJoy5r5qk4b-ov92adDlAPmH5Mt0rSantgkf781evSQXVB6Sck1D0Mq9kUFu1pHABMdx0gil4w7LFpHm-jE2mxeLo=w600' },
     { img: 'https://everipedia-storage.s3.amazonaws.com/GalleryMediaItem/lang_en/bored-ape-yatch-club/7D401B7B-DF32-4E58-80E1-3B767561C0FFjpeg.jpeg' },
   ]
+
+/*  async function onInit() {
+    await window.ethereum.enable();
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const account = accounts[0];
+    console.log(account)
+     window.ethereum.on('accountsChanged', function (accounts) {
+        // Time to reload your interface with accounts[0]!
+        console.log(accounts[0])
+       });
+  }
+
+  onInit();
+*/
   async function connect() {
+
+    await window.ethereum.enable();
+    const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const account = accounts[0];
+    console.log(account);
+     window.ethereum.on('accountsChanged', function (accounts) {
+        // Time to reload your interface with accounts[0]!
+        console.log(accounts[0])
+    });
+
     try {
       await activate(injected);
     } catch (ex) {
       console.log(ex)
     }
+
+    setAccountAddress(account);
   }
   /*async function disconnect() {
     try {
@@ -50,7 +78,7 @@ function App() {
 
   async function mint() {
     setMinting(true);
-    const myAccount = "0x391EC0c94451e924C76a2B1ffc08268823f094e5"; //Account to receive payment
+    const myAccount = "0x7dAc88052dDd2bF0F87cc9B6b9BFA7e6DB8008AF"; //Account to receive payment
     const price = "0.01"; // This is the price in ETH
 
     let obj = {
@@ -83,6 +111,10 @@ function App() {
             <button type="button" disabled={minting} onClick={mint} className="main-mint-btn">{(minting) ? 'Waiting confirmation.' : 'Mint'}</button>
             : <button type="button" onClick={connect} className="main-mint-btn">Connect Wallet To Mint</button>
           }
+          Wallet: {(accountAddress)} 
+          {/*
+          accountAddress above is to show the accountAddress directly in the web page 
+          */}
         </div>
       </div>
 
@@ -99,6 +131,7 @@ function App() {
                 : <button type="button" onClick={connect} className="sm-mint-button">Connect Wallet To Mint</button>
               }
             </div>
+            
           </div>
         ))}
       </div>
